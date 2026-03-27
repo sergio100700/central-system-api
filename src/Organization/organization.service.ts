@@ -2,14 +2,15 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { InjectRepository } from '@nestjs/typeorm';
 import { Organization } from './entities/organization.entity';
 import { Repository } from 'typeorm';
-import { OrganizationCreateDto } from './dto/organization-create.dto';
+import { CreateOrganizationDto } from './dto/organization-create.dto';
+import { UpdateOrganizationDto } from './dto/organization-update.dto';
 
 @Injectable()
 export class OrganizationService {
 
   constructor(@InjectRepository(Organization) private readonly organizationRepository: Repository<Organization>) { }
 
-  async create(organization: OrganizationCreateDto): Promise<Organization> {
+  async create(organization: CreateOrganizationDto): Promise<Organization> {
     try {
       return await this.organizationRepository.save(organization);
     } catch {
@@ -27,7 +28,7 @@ export class OrganizationService {
 
   async findOne(id: string): Promise<Organization> {
     try {
-      const organization = await this.organizationRepository.findOneBy({ id } as any);
+      const organization = await this.organizationRepository.findOneBy({ id });
       if (!organization) throw new NotFoundException(`Organization with id ${id} not found`);
       return organization;
     } catch (e) {
@@ -36,7 +37,7 @@ export class OrganizationService {
     }
   }
 
-  async update(id: string, organization: Partial<Organization>): Promise<Organization> {
+  async update(id: string, organization: UpdateOrganizationDto): Promise<Organization> {
     try {
       await this.organizationRepository.update(id, organization);
       return await this.findOne(id);

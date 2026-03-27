@@ -1,11 +1,12 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
-export class CreateOrganizationDto {
+export class UpdateOrganizationDto {
+    @IsOptional()
     @IsString()
     @IsNotEmpty()
-    public readonly name: string;
+    public readonly name?: string;
 
-    @IsString()
     @IsOptional()
+    @IsString()
     public readonly legalEntity?: string;
 }

@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrganizationModule } from './Organization/organization.module';
+import { ChargePointModule } from './ChargePoint/chargepoint.module';
 
 
 @Module({
   imports: [
     OrganizationModule,
+    ChargePointModule,
     TypeOrmModule.forRoot({
       type: 'mariadb',
       host: process.env.DB_HOST||'localhost',
